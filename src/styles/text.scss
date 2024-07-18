@@ -1,0 +1,6 @@
+@import "./variables.scss";
+
+input::placeholder
+{
+    color: $color-blue-6;
+}

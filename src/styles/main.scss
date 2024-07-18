@@ -1,0 +1,41 @@
+@import "./variables.scss";
+@import "./text.scss";
+
+body,html {
+  margin: 0;
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  background-color: $color-blue-1;
+  color: $color-text-light;
+  height: 100%;
+
+  .app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  .header {
+    width: 100%;
+    min-height: 80px;
+    background-color: $color-blue-1;
+  }
+
+  .suggestion-box
+  {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: $color-blue-2;
+    flex-grow: 1;
+
+    .side-panel
+    {
+        width: 320px;
+        max-width: 320px;
+        background-color: $color-blue-3;
+    }
+  }
+}
