@@ -7,19 +7,24 @@ import reportWebVitals from './reportWebVitals';
 import store from './store/store';
 import { worker } from './test/mocks/browser';
 
-if (process.env.NODE_ENV === 'development') {
-  worker.start();
-}
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-    <App />
-  </Provider>
-  </React.StrictMode>
-);
+
+const startWorker = async () => {
+  if (process.env.NODE_ENV === 'development') {
+    await worker.start();
+  }
+};
+
+startWorker().then(() => {
+  root.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>
+  );
+});
 
 reportWebVitals();

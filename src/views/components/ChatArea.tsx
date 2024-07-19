@@ -1,27 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Suggestion, UserComment } from '../../data/data';
 
-const ChatArea: React.FC = () => {
+interface ChatAreaProps {
+  suggestion: Suggestion | null;
+  comments: UserComment[];
+}
 
-  const [suggestions, setSuggestions] = useState<{ id: string, title: string, description: string, timestamp: Date }[]>([]);
-
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      try {
-        console.log('dsd')
-        const response = await fetch('/api/conversations?id=1');
-        console.log(response)
-        const data = await response.json();
-        setSuggestions(data.suggestions);
-        debugger;
-        console.log(data);
-      } catch (error) {
-        console.error('Error fetching suggestions:', error);
-      }
-    };
-    fetchSuggestions();
-  }, []);
-  
-  return <div className='chat-area'></div>;
+const ChatArea: React.FC<ChatAreaProps> = ({ suggestion, comments }) => {
+  return (
+    <div className='chat-area'>
+      {suggestion && (
+        <>
+          <h1>{suggestion.title}</h1>
+          <p>{suggestion.description}</p>
+          <ul>
+            {comments.map((comment, index) => (
+              <li key={index}>
+                <p>User ID: {comment.userId}</p>
+                <p>{comment.text}</p>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
 };
 
 export default ChatArea;

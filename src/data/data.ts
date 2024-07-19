@@ -1,9 +1,9 @@
-interface Comment {
-    userId: number;
+export interface UserComment {
+    userId: string;
     text: string;
 }
 
-interface Suggestion {
+export interface Suggestion {
     title: string;
     description: string;
     timestamp: Date;
@@ -11,122 +11,122 @@ interface Suggestion {
     conversationId: string;
 }
 
-interface CurrentUser {
+export interface CurrentUser {
     id: string;
     initials?: string;
 }
 
-interface AppData {
+export interface AppData {
     currentUser: CurrentUser;
     suggestions: Suggestion[];
 }
 
-export const conversations: { [key: string]: Comment[] } = {
+export const conversations: { [key: string]: UserComment[] } = {
     "1": [
         {
-            userId: 2,
+            userId: "2",
             text: "Wow, this is a great idea!"
         },
         {
-            userId: 3,
+            userId: "3",
             text: "Yes, I think a mascot would be awesome!"
         },
         {
-            userId: 1,
+            userId: "1",
             text: "Thanks for the feedback. Let's brainstorm some ideas."
         }
     ],
     "2": [
         {
-            userId: 1,
+            userId: "1",
             text: "A dark mode would be a fantastic addition."
         },
         {
-            userId: 3,
+            userId: "3",
             text: "I support this suggestion! Dark mode FTW!"
         }
     ],
     "3": [
         {
-            userId: 4,
+            userId: "4",
             text: "Absolutely, this would allow for much more interaction!"
         },
         {
-            userId: 5,
+            userId: "5",
             text: "Which apps are you thinking about?"
         },
         {
-            userId: 3,
+            userId: "3",
             text: "Maybe collaboration tools like Trello or Notion?"
         }
     ],
     "4": [
         {
-            userId: 2,
+            userId: "2",
             text: "Yes, notifications can get overwhelming."
         },
         {
-            userId: 1,
+            userId: "1",
             text: "What kind of customizations would you like to see?"
         }
     ],
     "5": [
         {
-            userId: 3,
+            userId: "3",
             text: "Noise suppression would be a game changer!"
         },
         {
-            userId: 4,
+            userId: "4",
             text: "Voice modulation sounds fun, we could have different effects!"
         }
     ],
     "6": [
         {
-            userId: 1,
+            userId: "1",
             text: "This would definitely add a personal touch to our messages."
         },
         {
-            userId: 2,
+            userId: "2",
             text: "I can’t wait to see what emojis people come up with!"
         }
     ],
     "7": [
         {
-            userId: 5,
+            userId: "5",
             text: "What kind of enhancements are you thinking of?"
         },
         {
-            userId: 6,
+            userId: "6",
             text: "Improved performance and a more intuitive interface."
         }
     ],
     "8": [
         {
-            userId: 3,
+            userId: "3",
             text: "Great idea, user feedback is crucial for improvement."
         },
         {
-            userId: 4,
+            userId: "4",
             text: "Maybe add a voting system for suggestions?"
         }
     ],
     "9": [
         {
-            userId: 2,
+            userId: "2",
             text: "Gamification can make the platform more engaging!"
         },
         {
-            userId: 7,
+            userId: "7",
             text: "I would love to earn badges for my contributions."
         }
     ],
     "10": [
         {
-            userId: 6,
+            userId: "6",
             text: "Security is always a top priority. Good suggestion!"
         },
         {
-            userId: 1,
+            userId: "1",
             text: "Any specific security features you have in mind?"
         }
     ]
