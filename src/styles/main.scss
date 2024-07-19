@@ -50,6 +50,12 @@ html {
       margin: 20px;
       padding: 10px;
       border-radius: 6px;
+      cursor: pointer;
+
+      &:hover{
+        background-color: white;
+        color: $color-blue-1;
+      }
     }
 
     .side-panel-items {
@@ -202,7 +208,7 @@ html {
         align-self: center;
         width: 40px;
         height: 40px;
-        background-color: $color-green-1;
+        background-color: $color-blue-5;
         color: white;
         border-radius: 50%;
         cursor: pointer;
