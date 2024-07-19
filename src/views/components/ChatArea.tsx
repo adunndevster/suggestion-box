@@ -1,5 +1,5 @@
 import React from "react";
-import { Suggestion, UserComment } from "../../data/data";
+import { currentUser, Suggestion, UserComment } from "../../data/data";
 import { getUser } from "../../utils/misc";
 
 interface ChatAreaProps {
@@ -26,8 +26,9 @@ const ChatArea: React.FC<ChatAreaProps> = ({ suggestion, comments }) => {
           <div className="conversation-container">
             {comments.map((comment, index) => {
               const user = getUser(comment.userId);
+              const isSelf = comment.userId === currentUser.id;
               return (
-                <div className="comment">
+                <div className={`comment ${isSelf ? 'self' : ''}`}>
                   <div className="initials">{user.initials}</div>
                   <div className="text">{comment.text}</div>
                 </div>
