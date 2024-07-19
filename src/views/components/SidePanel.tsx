@@ -1,22 +1,35 @@
-import React from 'react';
-import { Suggestion } from '../../data/data';
+import React from "react";
+import { Suggestion } from "../../data/data";
+import { formatDate, getUser } from "../../utils/misc";
 
 interface SidePanelProps {
   suggestions: Suggestion[];
   onSuggestionClick: (suggestion: Suggestion) => void;
 }
 
-const SidePanel: React.FC<SidePanelProps> = ({ suggestions, onSuggestionClick }) => {
+const SidePanel: React.FC<SidePanelProps> = ({
+  suggestions,
+  onSuggestionClick,
+}) => {
   return (
-    <div className='side-panel'>
-      <ul>
-        {suggestions.map(suggestion => (
-          <li key={suggestion.conversationId} onClick={() => onSuggestionClick(suggestion)}>
-            <p>{suggestion.title}</p>
-            <p>{new Date(suggestion.timestamp).toLocaleString()}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="side-panel">
+      {
+      suggestions.map((suggestion) => {
+        var user = getUser(suggestion.userId);
+        return(
+        <div
+          className="suggestion-item"
+          key={suggestion.conversationId}
+          onClick={() => onSuggestionClick(suggestion)}
+        >
+          <div className="title">{suggestion.title}</div>
+          <div className="small">{formatDate(suggestion.timestamp)}</div>
+          <div className="person">
+            <span><div className="initials">{user.initials}</div></span>
+            <span className="small">{user.name}</span>
+          </div>
+        </div>
+      )})}
     </div>
   );
 };

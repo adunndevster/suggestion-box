@@ -14,6 +14,12 @@ const SuggestionBox: React.FC = () => {
         const response = await fetch('/api/suggestions');
         const data = await response.json();
         setSuggestions(data.suggestions);
+        // Load the first suggestion's conversation by default
+        if (data.suggestions.length > 0) {
+          const firstSuggestion = data.suggestions[0];
+          setSelectedSuggestion(firstSuggestion);
+          await getSelection(firstSuggestion.conversationId);
+        }
       } catch (error) {
         console.error('Error fetching suggestions:', error);
       }
@@ -23,8 +29,12 @@ const SuggestionBox: React.FC = () => {
 
   const handleSuggestionClick = async (suggestion: Suggestion) => {
     setSelectedSuggestion(suggestion);
+    await getSelection(suggestion.conversationId);
+  };
+
+  const getSelection = async (id: string) => {
     try {
-      const response = await fetch(`/api/conversations?id=${suggestion.conversationId}`);
+      const response = await fetch(`/api/conversations?id=${id}`);
       const data = await response.json();
       setComments(data.comments);
     } catch (error) {
