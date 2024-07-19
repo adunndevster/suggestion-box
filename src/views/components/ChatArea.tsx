@@ -1,13 +1,15 @@
 import React from "react";
 import { currentUser, Suggestion, UserComment } from "../../data/data";
 import { getUser } from "../../utils/misc";
+import ChatEditor from "./ChatEditor";
 
 interface ChatAreaProps {
   suggestion: Suggestion | null;
   comments: UserComment[];
+  onNewComment: (text: string) => void;
 }
 
-const ChatArea: React.FC<ChatAreaProps> = ({ suggestion, comments }) => {
+const ChatArea: React.FC<ChatAreaProps> = ({ suggestion, comments, onNewComment }) => {
   return (
     <div className="chat-area">
       {suggestion && (
@@ -28,14 +30,14 @@ const ChatArea: React.FC<ChatAreaProps> = ({ suggestion, comments }) => {
               const user = getUser(comment.userId);
               const isSelf = comment.userId === currentUser.id;
               return (
-                <div className={`comment ${isSelf ? 'self' : ''}`}>
+                <div key={index} className={`comment ${isSelf ? 'self' : ''}`}>
                   <div className="initials">{user.initials}</div>
                   <div className="text">{comment.text}</div>
                 </div>
               );
             })}
           </div>
-          <div className="editor"></div>
+          <ChatEditor onSubmit={onNewComment} />
         </>
       )}
     </div>

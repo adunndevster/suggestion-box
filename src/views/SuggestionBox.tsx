@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ChatArea from './components/ChatArea';
 import SidePanel from './components/SidePanel';
-import { UserComment, Suggestion } from '../data/data';
+import { UserComment, Suggestion, currentUser } from '../data/data';
 
 const SuggestionBox: React.FC = () => {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -14,7 +14,6 @@ const SuggestionBox: React.FC = () => {
         const response = await fetch('/api/suggestions');
         const data = await response.json();
         setSuggestions(data.suggestions);
-        // Load the first suggestion's conversation by default
         if (data.suggestions.length > 0) {
           const firstSuggestion = data.suggestions[0];
           setSelectedSuggestion(firstSuggestion);
@@ -42,10 +41,30 @@ const SuggestionBox: React.FC = () => {
     }
   };
 
+  const handleNewComment = async (text: string) => {
+    if (!selectedSuggestion) return;
+    try {
+      await fetch('/api/conversations', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          conversationId: selectedSuggestion.conversationId,
+          text,
+          userId: currentUser.id,
+        }),
+      });
+      await getSelection(selectedSuggestion.conversationId);
+    } catch (error) {
+      console.error('Error posting new comment:', error);
+    }
+  };
+
   return (
     <div className='suggestion-box'>
       <SidePanel suggestions={suggestions} activeSuggestion={selectedSuggestion} onSuggestionClick={handleSuggestionClick} />
-      <ChatArea suggestion={selectedSuggestion} comments={comments} />
+      <ChatArea suggestion={selectedSuggestion} comments={comments} onNewComment={handleNewComment} />
     </div>
   );
 };

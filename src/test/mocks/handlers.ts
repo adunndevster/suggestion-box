@@ -1,6 +1,14 @@
 import { http, HttpResponse } from 'msw';
 import { appData, conversations } from '../../data/data';
 
+
+interface ConversationResponse
+{
+    conversationId: string;
+    userId: string;
+    text: string;
+}
+
 export const handlers = [
   http.get('/api/suggestions', () => {
     return HttpResponse.json({
@@ -16,4 +24,20 @@ export const handlers = [
       comments: conversations[id] || [],
     });
   }),
+
+  http.post('/api/conversations', async ({request}) => {
+    const data = await request.json() as ConversationResponse;
+    if(!data)
+    {
+        return HttpResponse.json({ success: false });
+    }
+
+    if (conversations[data.conversationId]) {
+      conversations[data.conversationId].push({ userId: data.userId, text: data.text });
+    } else {
+      conversations[data.conversationId] = [{ userId: data.userId, text: data.text }];
+    }
+
+    return HttpResponse.json({ success: true });
+  })
 ];
