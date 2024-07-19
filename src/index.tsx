@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(
 
 const startWorker = async () => {
   if (process.env.NODE_ENV === 'development') {
-    await worker.start();
+    await worker.start({onUnhandledRequest: 'bypass'});
   }
 };
 

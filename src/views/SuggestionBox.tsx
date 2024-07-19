@@ -44,7 +44,7 @@ const SuggestionBox: React.FC = () => {
 
   return (
     <div className='suggestion-box'>
-      <SidePanel suggestions={suggestions} onSuggestionClick={handleSuggestionClick} />
+      <SidePanel suggestions={suggestions} activeSuggestion={selectedSuggestion} onSuggestionClick={handleSuggestionClick} />
       <ChatArea suggestion={selectedSuggestion} comments={comments} />
     </div>
   );

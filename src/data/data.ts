@@ -18,7 +18,6 @@ export interface SuggestionUser {
 }
 
 export interface AppData {
-    currentUser: SuggestionUser;
     suggestions: Suggestion[];
 }
 
@@ -134,9 +133,6 @@ export const conversations: { [key: string]: UserComment[] } = {
 };
 
 export const appData: AppData = {
-    currentUser: {
-        id: "1",
-    },
     suggestions: [
         {
             title: "Root needs a mascot",
@@ -214,8 +210,8 @@ export const appData: AppData = {
 export const users: { [key: string]: SuggestionUser }  = {
     "1": {
         id: '1',
-        name: "Me Me",
-        initials: "MM"
+        name: "Root Gawd",
+        initials: "RG"
     },
     "2": {
         id: '1',
@@ -262,4 +258,8 @@ export const users: { [key: string]: SuggestionUser }  = {
         name: "Samuel Black",
         initials: "SB"
     }
+};
+
+export const currentUser = {
+    id: "1",
 };
