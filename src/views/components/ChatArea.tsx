@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { currentUser, Suggestion, UserComment } from "../../data/data";
 import { getUser } from "../../utils/misc";
 import ChatEditor from "./ChatEditor";
@@ -10,11 +10,31 @@ interface ChatAreaProps {
 }
 
 const ChatArea: React.FC<ChatAreaProps> = ({ suggestion, comments, onNewComment }) => {
+  const titleAreaRef = useRef<HTMLDivElement>(null);
+  const conversationContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateConversationContainerHeight = () => {
+      if (titleAreaRef.current && conversationContainerRef.current) {
+        const titleAreaHeight = titleAreaRef.current.offsetHeight;
+        conversationContainerRef.current.style.height = `calc(60vh - ${titleAreaHeight}px - 80px)`;
+      }
+    };
+
+    updateConversationContainerHeight();
+
+    window.addEventListener("resize", updateConversationContainerHeight);
+
+    return () => {
+      window.removeEventListener("resize", updateConversationContainerHeight);
+    };
+  }, [suggestion, comments]);
+
   return (
     <div className="chat-area">
       {suggestion && (
         <>
-          <div className="title-area">
+          <div ref={titleAreaRef} className="title-area">
             <h1>{suggestion.title}</h1>
             <div className="author">
               <span className="initials">
@@ -25,7 +45,7 @@ const ChatArea: React.FC<ChatAreaProps> = ({ suggestion, comments, onNewComment 
             <p>{suggestion.description}</p>
           </div>
 
-          <div className="conversation-container">
+          <div ref={conversationContainerRef} className="conversation-container">
             {comments.map((comment, index) => {
               const user = getUser(comment.userId);
               const isSelf = comment.userId === currentUser.id;

@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { appData, conversations } from '../../data/data';
+import { appData, conversations, Suggestion } from '../../data/data';
 
 
 interface ConversationResponse
@@ -37,6 +37,19 @@ export const handlers = [
     } else {
       conversations[data.conversationId] = [{ userId: data.userId, text: data.text }];
     }
+
+    return HttpResponse.json({ success: true });
+  }),
+
+  http.post('/api/suggestions', async ({request}) => {
+    const data = await request.json() as Suggestion;
+    if(!data)
+    {
+        return HttpResponse.json({ success: false });
+    }
+
+    appData.suggestions.push(data);
+    conversations[data.conversationId] = [];
 
     return HttpResponse.json({ success: true });
   })
