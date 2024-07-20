@@ -28,6 +28,6 @@ I used Sass for styles because of its compact nature. I'm _just_ at that point n
 
 #### For Serious Nerds Only
 
-I wanted to show what it would look like if I was actually hitting real api endpoints, and then processing the data for the application. I used [Mock Service Worker](https://mswjs.io/) to help me do this. It runs a separate server inside a worker in the browser, so we can simulate api endpoints. The rest of the application doesn't know they are fake, it's making _real http calls_ to it.
+I wanted to show what it would look like if I was actually hitting real api endpoints, and then processing the data for the application. I used [Mock Service Worker](https://mswjs.io/) to help me do this. It runs a separate server inside a worker in the browser, so we can [simulate api endpoints](https://github.com/adunndevster/suggestion-box/blob/main/src/test/mocks/handlers.ts). The rest of the application doesn't know they are fake, it's making _real http calls_ to it.
 
 This is AMAZING for testing. Rather than stressing about mocking out every little api call, you can use mock service worker, and then it makes it MUCH less tedious to write unit tests, because you don't need to change as much in your actual application code to write your tests.
