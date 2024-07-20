@@ -37,7 +37,7 @@ html {
   display: flex;
   flex-direction: row;
   width: 100%;
-  background-color: $color-blue-2;
+  background-color: $color-blue-3;
   flex-grow: 1;
 
   .side-panel {
@@ -114,7 +114,7 @@ html {
     display: flex;
     flex-direction: column;
     padding: 30px 30px 80px 50px;
-    background-color: $color-blue-4;
+    background-color: $color-blue-2;
 
     .title-area {
       padding-bottom: 10px;
