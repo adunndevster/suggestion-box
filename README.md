@@ -1,10 +1,6 @@
-# Getting Started with Create React App
+### `npm install`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
+Grabs all of your dependancies.
 
 ### `npm start`
 
@@ -14,33 +10,22 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `npm test`
+### Notes!
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Thank you for taking the time to look at this project. It was a fun puzzle and it really sucked me in! I hope you find the code simple to read and understand.
 
-### `npm run build`
+#### State Management 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+State is managed between components. It works well, but by the time I got to the thrid component deep, I realized it's probably just better to start with Redux. I'm not a fan of prop drilling.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### Architecture and Component Design
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+I tried to separate concerns as much as I could, through clean component design. Sometimes you can overdo it though, and I tried not to do that. For example, the items in the sidebar component, `SidePanel`, are just rendered inline. They could have been components, but for this purpose that would be overkill.
 
-### `npm run eject`
+On the other hand I made sure to break the editor out into its own component. The editor could essentially be another application in itself. I know this because I've built them so many times :D. It would have been fun to implement markdown in it! That's also another reason I chose to go with a `contenteditable` div over an `input` -- the options it gives you in rendering the text.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### For Serious Nerds Only
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+I wanted to show what it would look like if I was actually hitting real api endpoints, and then processing the data for the application. I used [Mock Service Worker](https://mswjs.io/) to help me do this. It runs a separate server inside a worker in the browser, so we can simulate api endpoints. The rest of the application doesn't know they are fake, it's making _real http calls_ to it.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+This is AMAZING for testing. Rather than stressing about mocking out every little api call, you can use mock service worker, and then it makes it MUCH less tedious to write unit tests, because you don't need to change as much in your actual application code to write your tests.
