@@ -15,4 +15,10 @@ export const formatDate = (timestamp: Date): string => {
   };
   
 
-  export const getUser = (userId:string):SuggestionUser => users[userId]
+  export const getUser = (userId:string):SuggestionUser => users[userId];
+
+  export const getRandomFromRange = (base:number = 4000, range:number = 8000):number =>
+  {
+    const rando = (Math.random() * range) + base;
+    return Math.round(rando);
+  }

@@ -1,23 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { Suggestion } from "../../data/data";
 import { formatDate, getUser } from "../../utils/misc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import NewSuggestionModal from "../NewSuggestionModal";
 
 interface SidePanelProps {
   suggestions: Suggestion[];
   activeSuggestion: Suggestion | null;
   onSuggestionClick: (suggestion: Suggestion) => void;
+  onNewSuggestion: (suggestion: Suggestion) => void;
 }
 
 const SidePanel: React.FC<SidePanelProps> = ({
   suggestions,
   activeSuggestion,
   onSuggestionClick,
+  onNewSuggestion,
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleNewSuggestionClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="side-panel">
-      <div className="new-suggestion">
+      <div className="new-suggestion" onClick={handleNewSuggestionClick}>
         <FontAwesomeIcon icon={faPenToSquare} />
         New Suggestion
       </div>
@@ -45,6 +58,15 @@ const SidePanel: React.FC<SidePanelProps> = ({
           );
         })}
       </div>
+      {isModalOpen && (
+        <NewSuggestionModal
+          onClose={handleCloseModal}
+          onSave={(suggestion: Suggestion) => {
+            onNewSuggestion(suggestion);
+            setIsModalOpen(false);
+          }}
+        />
+      )}
     </div>
   );
 };

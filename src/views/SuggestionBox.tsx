@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ChatArea from "./components/ChatArea";
 import SidePanel from "./components/SidePanel";
-import { UserComment, Suggestion, currentUser, conversations } from "../data/data";
-import {
-    paragraph,
-    sentence
-  } from 'txtgen'
+import { UserComment, Suggestion, currentUser, conversations, users } from "../data/data";
+import { paragraph, sentence } from "txtgen";
 
 const SuggestionBox: React.FC = () => {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -65,11 +62,12 @@ const SuggestionBox: React.FC = () => {
   const addRandomSuggestion = async () => {
     const timestamp = new Date();
     const conversationId = (Object.keys(conversations).length + 1).toString();
+    const userId = (Math.ceil(Math.random() * Object.keys(users).length)).toString();
     const suggestion: Suggestion = {
       title: sentence(),
       description: paragraph(),
       timestamp,
-      userId: "5",
+      userId,
       conversationId,
     };
     await handleNewSuggestion(suggestion);
@@ -105,6 +103,7 @@ const SuggestionBox: React.FC = () => {
         suggestions={suggestions}
         activeSuggestion={selectedSuggestion}
         onSuggestionClick={handleSuggestionClick}
+        onNewSuggestion={handleNewSuggestion}
       />
       <ChatArea
         suggestion={selectedSuggestion}
