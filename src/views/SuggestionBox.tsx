@@ -98,6 +98,12 @@ const SuggestionBox: React.FC = () => {
     return () => clearInterval(interval);
   }, [dispatch]);
 
+  useEffect(() => {
+    if (selectedSuggestion) {
+      getSelection(selectedSuggestion.conversationId);
+    }
+  }, [selectedSuggestion]);
+
   return (
     <div className="suggestion-box">
       <SidePanel
