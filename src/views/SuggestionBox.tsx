@@ -3,16 +3,12 @@ import ChatArea from "./components/ChatArea";
 import SidePanel from "./components/SidePanel";
 import { UserComment, Suggestion, currentUser, conversations, users } from "../data/data";
 import { paragraph, sentence } from "txtgen";
+import { useSuggestionContext } from "../store/SuggestionContext";
 
 const SuggestionBox: React.FC = () => {
-  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
-  const [selectedSuggestion, setSelectedSuggestion] = useState<Suggestion | null>(null);
+  const { state, dispatch } = useSuggestionContext();
+  const { suggestions, selectedSuggestion } = state;
   const [comments, setComments] = useState<UserComment[]>([]);
-
-  const handleSuggestionClick = async (suggestion: Suggestion) => {
-    setSelectedSuggestion(suggestion);
-    await getSelection(suggestion.conversationId);
-  };
 
   const getSelection = async (id: string) => {
     try {
@@ -53,7 +49,7 @@ const SuggestionBox: React.FC = () => {
         },
         body: JSON.stringify(suggestion),
       });
-      setSuggestions(prevSuggestions => [...prevSuggestions, suggestion]);
+      dispatch({ type: "ADD_SUGGESTION", payload: suggestion });
     } catch (error) {
       console.error("Error creating new suggestion:", error);
     }
@@ -78,10 +74,10 @@ const SuggestionBox: React.FC = () => {
       try {
         const response = await fetch("/api/suggestions");
         const data = await response.json();
-        setSuggestions(data.suggestions);
+        dispatch({ type: "SET_SUGGESTIONS", payload: data.suggestions });
         if (data.suggestions.length > 0) {
           const firstSuggestion = data.suggestions[0];
-          setSelectedSuggestion(firstSuggestion);
+          dispatch({ type: "SELECT_SUGGESTION", payload: firstSuggestion });
           await getSelection(firstSuggestion.conversationId);
         }
       } catch (error) {
@@ -95,14 +91,19 @@ const SuggestionBox: React.FC = () => {
     }, 4000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (selectedSuggestion) {
+      getSelection(selectedSuggestion.conversationId);
+    }
+  }, [selectedSuggestion]);
 
   return (
     <div className="suggestion-box">
       <SidePanel
         suggestions={suggestions}
         activeSuggestion={selectedSuggestion}
-        onSuggestionClick={handleSuggestionClick}
         onNewSuggestion={handleNewSuggestion}
       />
       <ChatArea
