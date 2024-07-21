@@ -9,7 +9,6 @@ import { useSuggestionContext } from "../../store/SuggestionContext";
 interface SidePanelProps {
   suggestions: Suggestion[];
   activeSuggestion: Suggestion | null;
-  onSuggestionClick: (suggestion: Suggestion) => void;
   onNewSuggestion: (suggestion: Suggestion) => void;
 }
 

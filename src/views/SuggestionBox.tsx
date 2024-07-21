@@ -10,11 +10,6 @@ const SuggestionBox: React.FC = () => {
   const { suggestions, selectedSuggestion } = state;
   const [comments, setComments] = useState<UserComment[]>([]);
 
-  const handleSuggestionClick = async (suggestion: Suggestion) => {
-    dispatch({ type: "SELECT_SUGGESTION", payload: suggestion });
-    await getSelection(suggestion.conversationId);
-  };
-
   const getSelection = async (id: string) => {
     try {
       const response = await fetch(`/api/conversations?id=${id}`);
@@ -109,7 +104,6 @@ const SuggestionBox: React.FC = () => {
       <SidePanel
         suggestions={suggestions}
         activeSuggestion={selectedSuggestion}
-        onSuggestionClick={handleSuggestionClick}
         onNewSuggestion={handleNewSuggestion}
       />
       <ChatArea
