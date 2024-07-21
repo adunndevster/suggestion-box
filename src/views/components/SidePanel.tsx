@@ -4,6 +4,7 @@ import { formatDate, getUser } from "../../utils/misc";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import NewSuggestionModal from "../NewSuggestionModal";
+import { useSuggestionContext } from "../../store/SuggestionContext";
 
 interface SidePanelProps {
   suggestions: Suggestion[];
@@ -12,12 +13,9 @@ interface SidePanelProps {
   onNewSuggestion: (suggestion: Suggestion) => void;
 }
 
-const SidePanel: React.FC<SidePanelProps> = ({
-  suggestions,
-  activeSuggestion,
-  onSuggestionClick,
-  onNewSuggestion,
-}) => {
+const SidePanel: React.FC<SidePanelProps> = () => {
+  const { state, dispatch } = useSuggestionContext();
+  const { suggestions, selectedSuggestion } = state;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleNewSuggestionClick = () => {
@@ -38,13 +36,13 @@ const SidePanel: React.FC<SidePanelProps> = ({
         {suggestions.map((suggestion) => {
           const user = getUser(suggestion.userId);
           const isActive =
-            activeSuggestion &&
-            activeSuggestion.conversationId === suggestion.conversationId;
+            selectedSuggestion &&
+            selectedSuggestion.conversationId === suggestion.conversationId;
           return (
             <div
               className={`suggestion-item ${isActive ? "active" : ""}`}
               key={suggestion.conversationId}
-              onClick={() => onSuggestionClick(suggestion)}
+              onClick={() => dispatch({ type: "SELECT_SUGGESTION", payload: suggestion })}
             >
               <div className="title">{suggestion.title}</div>
               <div className="small">{formatDate(suggestion.timestamp)}</div>
@@ -62,7 +60,7 @@ const SidePanel: React.FC<SidePanelProps> = ({
         <NewSuggestionModal
           onClose={handleCloseModal}
           onSave={(suggestion: Suggestion) => {
-            onNewSuggestion(suggestion);
+            dispatch({ type: "ADD_SUGGESTION", payload: suggestion });
             setIsModalOpen(false);
           }}
         />

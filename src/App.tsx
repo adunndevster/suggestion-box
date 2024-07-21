@@ -3,15 +3,18 @@ import "./styles/main.scss";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SuggestionBox from "./views/SuggestionBox";
 import Header from "./views/components/Header";
+import { SuggestionProvider } from "./store/SuggestionContext";
 
 function App() {
   return (
     <div className="app">
-      <Header></Header>
+      <Header />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<SuggestionBox />} />
-        </Routes>
+        <SuggestionProvider>
+          <Routes>
+            <Route path="/" element={<SuggestionBox />} />
+          </Routes>
+        </SuggestionProvider>
       </BrowserRouter>
     </div>
   );
