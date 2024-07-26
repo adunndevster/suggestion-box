@@ -1,6 +1,8 @@
 export interface UserComment {
     userId: string;
     text: string;
+    hasThumb?: boolean;
+    timestamp?: Date;
 }
 
 export interface Suggestion {
